@@ -1,38 +1,21 @@
-import React, { SyntheticEvent, useState } from 'react';
+import { useState } from 'react';
 import { numbers, operations } from '../data/calcData';
+import calculate from '../helpers/calculate';
 import Button from './Button';
 import Window from './Window';
 
 export default function Calculator() {
     const [calcInput, updateCalcInput] = useState('');
+    const [operationResult, updateOperationResult] = useState(0);
 
-    const updateCalc = (newValue: string) => {
-        // update new value when typing
-        // concatenate strings when using calc buttons
-        // updateCalcInput(newValue);
+    const handleWindowChange = (event: React.BaseSyntheticEvent) => {
+        updateCalcInput((prevCalcInput) =>
+            event.target.validity.valid ? event.target.value : prevCalcInput
+        );
     };
 
-    const handleButtonClick = (data: string) => {
-        console.log('clicked', data);
-        updateCalc(data);
-    };
-
-    const onInputChange = (e: any) => {
-        // santise string
-        // only numbers and operation signs allowed
-        console.log('event', e.target.value, typeof e.target.value);
-        const newValue = e.target.value;
-
-        // if (
-        // operations.includes(newValue) ||
-        // numbers.includes(newValue) ||
-        // Number(newValue)
-        // ) {
-        updateCalc(newValue);
-        // console.log('allowed', newValue);
-        // } else {
-        // console.log('not allowed', newValue);
-        // }
+    const handleBtnClick = (char: string) => {
+        updateCalcInput((prevCalcInput) => prevCalcInput + char);
     };
 
     const buttonRenderer = (data: string[]) => {
@@ -40,19 +23,34 @@ export default function Calculator() {
             return (
                 <Button
                     key={`key-${singleData}`}
-                    onClick={() => handleButtonClick(singleData)}
+                    onClick={() => handleBtnClick(singleData)}
                     source={singleData}
                 />
             );
         });
     };
 
+    const calculateOperation = () => {
+        const result = calculate(calcInput);
+        updateOperationResult(result);
+    };
+
+    const numbersRendered = buttonRenderer(numbers);
+    const operationsRendered = buttonRenderer(operations);
+
     return (
         <div>
             <h1>Calculator</h1>
-            {buttonRenderer(numbers)}
-            {buttonRenderer(operations)}
-            <Window source={calcInput} onChange={onInputChange} />
+            <h2>State</h2>
+            {calcInput}
+            <h2>Result</h2>
+            {operationResult}
+            <div className="main-calculator-body">
+                {numbersRendered}
+                {operationsRendered}
+                <Window source={calcInput} onChange={handleWindowChange} />
+                <Button source="=" onClick={calculateOperation} />
+            </div>
         </div>
     );
 }

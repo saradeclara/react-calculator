@@ -4,6 +4,17 @@
     border: solid 1px black;
 }
 
+.main-calculator-body {
+    display: flex;
+
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+}
+
 .window {
     width: 150px;
     height: 20px;
