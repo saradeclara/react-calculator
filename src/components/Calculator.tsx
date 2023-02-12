@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import { numbers, operations } from '../data/calcData';
+import {
+    numbers,
+    primaryOperations,
+    secondaryOperations,
+} from '../data/calcData';
 import calculate from '../helpers/calculate';
 import Button from './Button';
 import Window from './Window';
 
 export default function Calculator() {
     const [calcInput, updateCalcInput] = useState('');
+    const [inputPrintout, updatePrintout] = useState('');
     const [operationResult, updateOperationResult] = useState(0);
 
     const handleWindowChange = (event: React.BaseSyntheticEvent) => {
@@ -36,20 +41,30 @@ export default function Calculator() {
     };
 
     const numbersRendered = buttonRenderer(numbers);
-    const operationsRendered = buttonRenderer(operations);
+    const primaryOperationsRendered = buttonRenderer(primaryOperations);
+    const secondaryOperationsRendered = buttonRenderer(secondaryOperations);
 
     return (
-        <div>
+        <div className="main-app">
             <h1>Calculator</h1>
+            <h2>Printout</h2>
+            {inputPrintout}
             <h2>State</h2>
             {calcInput}
             <h2>Result</h2>
             {operationResult}
-            <div className="main-calculator-body">
-                {numbersRendered}
-                {operationsRendered}
+            <div className="main-calculator">
                 <Window source={calcInput} onChange={handleWindowChange} />
                 <Button source="=" onClick={calculateOperation} />
+                <div className="button-wrapper">
+                    <div className="secondary-and-numbers">
+                        <div className="secondary">
+                            {secondaryOperationsRendered}
+                        </div>
+                        <div className="numbers">{numbersRendered}</div>
+                    </div>
+                    <div className="primary">{primaryOperationsRendered}</div>
+                </div>
             </div>
         </div>
     );

@@ -14,6 +14,7 @@ export default function Window({ source, onChange, onKeyUp }: WindowProps) {
             pattern="[0-9\-\+\/\*]*"
             onKeyUp={onKeyUp}
             onChange={onChange}
+            className="window"
         />
     );
 }

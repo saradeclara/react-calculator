@@ -1,7 +1,9 @@
 import React, { MouseEventHandler } from 'react';
+import { IconType } from 'react-icons/lib/esm/iconBase';
+import { FiDelete } from 'react-icons/fi';
 
 interface ButtonProps {
-    source: string | number;
+    source: string;
     onClick: MouseEventHandler<HTMLDivElement>;
 }
 
