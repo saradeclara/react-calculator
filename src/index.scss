@@ -1,14 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto&display=swap');
+
+.main-app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.main-title {
+    font-family: 'Righteous', cursive;
+    text-transform: uppercase;
+    font-size: 1.8em;
+    width: 50%;
+    h1 {
+        color: blue;
+        text-align: center;
+    }
+}
+
 .button {
     border: 1px solid black;
+    cursor: pointer;
     width: 100px;
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
+    font-size: 1.2em;
 }
 
-.main-calculator {
+.printout {
+    height: 20px;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .button-wrapper {
@@ -16,11 +43,36 @@
     justify-content: center;
 }
 
+.main-calculator {
+    width: 25%;
+}
+
+.main-window {
+    display: flex;
+    width: 100%;
+    padding: 10px 0px;
+    .window {
+        height: 100px;
+        text-align: right;
+        width: 100%;
+        flex-grow: 1;
+        font-size: 3.5em;
+        border: 0px;
+    }
+    .window:focus,
+    .window:focus-visible {
+        outline: none !important;
+        outline-width: 0 !important;
+        box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+}
+
 .secondary-and-numbers {
     display: flex;
     flex-direction: column;
     background-color: green;
-    width: 20%;
     .secondary {
         display: flex;
         flex-wrap: wrap;

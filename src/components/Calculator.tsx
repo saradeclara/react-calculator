@@ -4,31 +4,49 @@ import {
     primaryOperations,
     secondaryOperations,
 } from '../data/calcData';
-import calculate from '../helpers/calculate';
+import { calculate } from '../helpers/';
 import Button from './Button';
 import Window from './Window';
 
 export default function Calculator() {
-    const [calcInput, updateCalcInput] = useState('');
-    const [inputPrintout, updatePrintout] = useState('');
-    const [operationResult, updateOperationResult] = useState(0);
+    const defaultCalcInput = '0';
+    const defaultPrintOut = '';
+    const [calcInput, updateCalcInput] = useState(defaultCalcInput);
+    const [printOut, updatePrintout] = useState(defaultPrintOut);
 
     const handleWindowChange = (event: React.BaseSyntheticEvent) => {
+        console.log('value', event.target.value);
+        let { value } = event.target;
+        // remove leading zero when starting to type
+        if (value.length > 1 && value[0] === '0') {
+            let valueArray = value.split('');
+            valueArray.shift();
+            value = valueArray.join('');
+        }
         updateCalcInput((prevCalcInput) =>
-            event.target.validity.valid ? event.target.value : prevCalcInput
+            event.target.validity.valid ? value : prevCalcInput
         );
     };
 
     const handleBtnClick = (char: string) => {
-        updateCalcInput((prevCalcInput) => prevCalcInput + char);
+        updateCalcInput((prevCalcInput) =>
+            // remove leading zero when starting to type
+            prevCalcInput.length === 1 && prevCalcInput === '0'
+                ? char
+                : prevCalcInput + char
+        );
     };
 
     const buttonRenderer = (data: string[]) => {
         return data.map((singleData) => {
+            const buttonOnClick =
+                singleData === '='
+                    ? calculateOperation
+                    : () => handleBtnClick(singleData);
             return (
                 <Button
                     key={`key-${singleData}`}
-                    onClick={() => handleBtnClick(singleData)}
+                    onClick={buttonOnClick}
                     source={singleData}
                 />
             );
@@ -37,7 +55,8 @@ export default function Calculator() {
 
     const calculateOperation = () => {
         const result = calculate(calcInput);
-        updateOperationResult(result);
+        updatePrintout(calcInput + '=');
+        updateCalcInput(result);
     };
 
     const numbersRendered = buttonRenderer(numbers);
@@ -46,16 +65,14 @@ export default function Calculator() {
 
     return (
         <div className="main-app">
-            <h1>Calculator</h1>
-            <h2>Printout</h2>
-            {inputPrintout}
-            <h2>State</h2>
-            {calcInput}
-            <h2>Result</h2>
-            {operationResult}
+            <div className="main-title">
+                <h1>React Calculator</h1>
+            </div>
             <div className="main-calculator">
-                <Window source={calcInput} onChange={handleWindowChange} />
-                <Button source="=" onClick={calculateOperation} />
+                <div className="printout">{printOut}</div>
+                <div className="main-window">
+                    <Window source={calcInput} onChange={handleWindowChange} />
+                </div>
                 <div className="button-wrapper">
                     <div className="secondary-and-numbers">
                         <div className="secondary">

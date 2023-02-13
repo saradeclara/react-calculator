@@ -2,17 +2,16 @@ import { FormEventHandler } from 'react';
 
 interface WindowProps {
     source: string;
-    onChange?: FormEventHandler<HTMLDivElement>;
-    onKeyUp?: FormEventHandler<HTMLDivElement>;
+    onChange: FormEventHandler<HTMLDivElement>;
 }
 
-export default function Window({ source, onChange, onKeyUp }: WindowProps) {
+export default function Window({ source, onChange }: WindowProps) {
     return (
         <input
+            autoFocus
             type="text"
             value={source}
             pattern="[0-9\-\+\/\*]*"
-            onKeyUp={onKeyUp}
             onChange={onChange}
             className="window"
         />
