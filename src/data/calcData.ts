@@ -1,14 +1,3 @@
-const primaryOperations: string[] = ['delete', '/', '*', '-', '+', '='];
-
-const secondaryOperations: string[] = [
-    '%',
-    'CE',
-    'C',
-    '1/x',
-    'x^2',
-    'sqr root(x)',
-];
-
 const numbers: string[] = [
     '+/-',
     '0',
@@ -24,4 +13,4 @@ const numbers: string[] = [
     '9',
 ];
 
-export { numbers, primaryOperations, secondaryOperations };
+export { numbers };

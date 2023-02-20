@@ -3,7 +3,6 @@ function countDecimals(number: number): number {
         return 0;
     } else {
         const stringified = number.toString();
-        console.log(stringified);
         const floatFound = stringified.indexOf('.');
         if (floatFound !== -1) {
             const stringToArray = stringified.split('').splice(floatFound);
