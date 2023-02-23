@@ -63,7 +63,7 @@ export default function Calculator() {
         },
         {
             value: 'sqrt(x)',
-            label: 'square root',
+            label: 'squareroot',
         },
     ];
 
@@ -107,7 +107,11 @@ export default function Calculator() {
     const handleSquare = () => {
         const squareOperation = `sqr(${calcInput})`;
         const result = calculateOperation(squareOperation);
-        console.log('result', result);
+    };
+
+    const handleSquareRoot = () => {
+        const squareRootOperation = `sqrt(${calcInput})`;
+        const result = calculateOperation(squareRootOperation);
     };
 
     const handleKeyUp = (event: { keyCode: number }) => {
@@ -140,6 +144,8 @@ export default function Calculator() {
                 return handleInverse;
             case 'square':
                 return handleSquare;
+            case 'squareroot':
+                return handleSquareRoot;
             default:
                 return typeof value === 'string'
                     ? () => handleBtnClick(value)

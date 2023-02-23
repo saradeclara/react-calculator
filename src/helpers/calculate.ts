@@ -1,16 +1,15 @@
-import { executeOperation, findFirst } from './';
+import { createSequence, executeOperation, extractString, findFirst } from './';
 import { countDecimals } from './index';
 import { firstOpType, mainSequenceSingleType } from './interfaces';
 
 const errorMessage = 'ERROR';
+const decimalLimit = 10;
 
 function calculate(string: string): string {
     let tempNumber: string[] = [];
     let mainSequence: mainSequenceSingleType[] = [];
-    console.log('string', string);
     for (let index = 0; index < string.split('').length; index++) {
         const char = string.split('')[index];
-        console.log('char', char);
         if (Number(char) || char === '0') {
             // number
             tempNumber.push(char);
@@ -40,25 +39,24 @@ function calculate(string: string): string {
             } else {
                 // check if it's square root
                 if (string.includes('sqrt')) {
+                    const newSquareRootSequence = createSequence(
+                        string,
+                        mainSequence,
+                        'squareroot'
+                    );
+                    mainSequence.push(newSquareRootSequence);
+                    break;
                 } else {
                     // check if it's square
                     if (string.includes('sqr')) {
-                        // find closing parentheses
-                        const lastParentheses = string.indexOf(')');
-                        const value = string
-                            .split('')
-                            .splice(0, lastParentheses + 1)
-                            .join('');
-                        const newSquareSequence: mainSequenceSingleType = {
-                            value,
-                            type: 'square',
-                            index: mainSequence.length,
-                        };
-                        console.log('SQUARE', newSquareSequence);
+                        const newSquareSequence = createSequence(
+                            string,
+                            mainSequence,
+                            'square'
+                        );
                         mainSequence.push(newSquareSequence);
                         break;
                     } else {
-                        console.log(errorMessage);
                         return errorMessage;
                     }
                 }
@@ -79,23 +77,15 @@ function calculate(string: string): string {
 
     // establish how many operations need to be performed
     const nOfRounds = mainSequence.filter(({ type }) => type === 'operation');
-    console.log('nOfRounds', nOfRounds.length, mainSequence);
 
     if (nOfRounds.length === 0) {
         // check for squares or square roots
         const squares = mainSequence.filter(({ type }) => type === 'square');
         if (squares.length > 0) {
-            // extract number from string
-            const stringValueToArray = squares[0].value.split('');
-            let number: string[] = [];
-            stringValueToArray.forEach((char) => {
-                if (Number(char)) {
-                    number.push(char);
-                }
-            });
+            const number = extractString(squares[0].value);
+
             const numberFound = Number(number.join(''));
             const value = Math.pow(numberFound, 2).toString();
-            console.log('value', value);
             const newSequence: mainSequenceSingleType[] = [
                 {
                     value,
@@ -105,6 +95,25 @@ function calculate(string: string): string {
             ];
 
             mainSequence = newSequence;
+        } else {
+            const squareRoots = mainSequence.filter(
+                ({ type }) => type === 'squareroot'
+            );
+            if (squareRoots.length > 0) {
+                const number = extractString(squareRoots[0].value);
+
+                const numberFound = Number(number.join(''));
+                const value = Math.sqrt(numberFound).toString();
+                const newSequence: mainSequenceSingleType[] = [
+                    {
+                        value,
+                        index: mainSequence.length,
+                        type: 'number',
+                    },
+                ];
+
+                mainSequence = newSequence;
+            }
         }
     }
     // perform calculation for each operation found
@@ -142,8 +151,8 @@ function calculate(string: string): string {
 
     // truncate floats
     const decimals = countDecimals(Number(finalResult));
-    if (decimals > 13) {
-        finalResult = Number(finalResult).toFixed(13).toString();
+    if (decimals > decimalLimit) {
+        finalResult = Number(finalResult).toFixed(decimalLimit).toString();
     }
 
     return finalResult;
