@@ -104,6 +104,12 @@ export default function Calculator() {
         calculateOperation(inverseOperation);
     };
 
+    const handleSquare = () => {
+        const squareOperation = `sqr(${calcInput})`;
+        const result = calculateOperation(squareOperation);
+        console.log('result', result);
+    };
+
     const handleKeyUp = (event: { keyCode: number }) => {
         // trigger calculateOperation when pressing ENTER
         if (event.keyCode === 13) {
@@ -132,6 +138,8 @@ export default function Calculator() {
                 return () => calculateOperation(calcInput);
             case 'inverse':
                 return handleInverse;
+            case 'square':
+                return handleSquare;
             default:
                 return typeof value === 'string'
                     ? () => handleBtnClick(value)
