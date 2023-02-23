@@ -55,7 +55,7 @@ export default function Calculator() {
         },
         {
             value: '1/x',
-            label: 'multiplicative inverse',
+            label: 'inverse',
         },
         {
             value: 'x^2',
@@ -67,10 +67,11 @@ export default function Calculator() {
         },
     ];
 
+    // HANDLERS
+
     const handleWindowChange = (event: React.BaseSyntheticEvent) => {
         let { value } = event.target;
         // remove leading zero when starting to type
-        console.log('value', value);
         if (value.length > 1 && value[0] === '0') {
             let valueArray = value.split('');
             valueArray.shift();
@@ -98,15 +99,27 @@ export default function Calculator() {
         updateCalcInput((prevCalcInput) => deleteLastChar(prevCalcInput));
     };
 
+    const handleInverse = () => {
+        const inverseOperation = `1/${calcInput}`;
+        calculateOperation(inverseOperation);
+    };
+
     const handleKeyUp = (event: { keyCode: number }) => {
+        // trigger calculateOperation when pressing ENTER
         if (event.keyCode === 13) {
-            calculateOperation();
+            calculateOperation(calcInput);
+        }
+        // trigger handleDeleteBtn when pressing DELETE
+        if (event.keyCode === 8) {
+            handleDeleteBtn();
         }
     };
 
-    const calculateOperation = () => {
-        const result = calculate(calcInput);
-        updatePrintout(calcInput + '=');
+    // HELPERS
+
+    const calculateOperation = (stringOperation: string) => {
+        const result = calculate(stringOperation);
+        updatePrintout(stringOperation + '=');
         updateCalcInput(result);
         return result;
     };
@@ -116,13 +129,17 @@ export default function Calculator() {
             case 'delete':
                 return handleDeleteBtn;
             case 'equal':
-                return calculateOperation;
+                return () => calculateOperation(calcInput);
+            case 'inverse':
+                return handleInverse;
             default:
                 return typeof value === 'string'
                     ? () => handleBtnClick(value)
                     : undefined;
         }
     };
+
+    // RENDERERS
 
     const numberRender = (data: string[]) => {
         return data.map((singleData) => {

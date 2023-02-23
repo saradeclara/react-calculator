@@ -1,6 +1,4 @@
-import React, { MouseEventHandler, ReactElement } from 'react';
-import { IconType } from 'react-icons/lib/esm/iconBase';
-import { FiDelete } from 'react-icons/fi';
+import { MouseEventHandler, ReactElement } from 'react';
 
 interface ButtonProps {
     source: ReactElement | string;
