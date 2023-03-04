@@ -3,6 +3,11 @@
 h1,
 h2 {
     font-family: 'Tilt Warp', cursive;
+
+    margin: 0;
+}
+
+h3 {
     margin: 0;
 }
 
@@ -13,10 +18,33 @@ h1 {
 
 h2 {
     margin-top: -7px;
+    margin-bottom: 0px;
+
     font-family: 'Roboto';
     font-size: 1em;
+}
 
-    margin-bottom: 0px;
+.button {
+    width: 100px;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: lightgray;
+    color: black;
+
+    border-radius: 10%;
+
+    font-size: 2em;
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgb(178, 175, 175);
+        transition: background-color 0.3s;
+    }
 }
 
 .button-wrapper {
@@ -27,17 +55,18 @@ h2 {
     font-family: 'Roboto';
 }
 
-.main-calculator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
 .window-button-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.main-calculator {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    height: calc(100vh - 150px);
 }
 
 .window-printout {
@@ -77,29 +106,6 @@ h2 {
     }
 }
 
-.button {
-    width: 100px;
-    height: 100px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: lightgray;
-    color: black;
-
-    border-radius: 10%;
-
-    font-size: 2em;
-
-    cursor: pointer;
-
-    &:hover {
-        background-color: rgb(178, 175, 175);
-        transition: background-color 0.3s;
-    }
-}
-
 .primary {
     margin-left: 10px;
     .button {
@@ -134,4 +140,50 @@ h2 {
         display: flex;
         gap: 10px;
     }
+}
+
+// HISTORY WINDOW
+
+.history-window {
+    width: 300px;
+    height: 100%;
+}
+
+.history-log-single {
+    text-align: right;
+
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    background-color: rgb(238, 238, 238);
+
+    border-radius: 10px;
+
+    .result {
+        font-weight: bold;
+        font-size: 1.5em;
+    }
+}
+
+// TRANSITION GROUP
+
+@keyframes slide-in-top {
+    0% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.item-enter {
+    opacity: 0;
+}
+.item-enter-active {
+    -webkit-animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+        both;
+    animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }

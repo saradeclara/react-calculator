@@ -1,4 +1,13 @@
-import { ReactElement } from 'react';
+import { MouseEventHandler, ReactElement } from 'react';
+
+export interface ButtonProps {
+    source: ReactElement | string;
+    onClick: MouseEventHandler<HTMLDivElement> | undefined;
+}
+
+export interface HistoryProps {
+    log: historyLogRecord[];
+}
 
 export interface mainSequenceSingleType {
     value: string;
@@ -20,4 +29,10 @@ export interface newOperationType {
 export interface operationsType {
     value: ReactElement | string;
     label: string;
+}
+
+export interface historyLogRecord {
+    stringOperation: string;
+    result: string;
+    nodeRef: any;
 }

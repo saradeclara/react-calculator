@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { createRef, useState } from 'react';
 import { calculate, deleteLastChar } from '../helpers/';
-import Button from './Button';
-import Window from './Window';
 import { FiDelete } from 'react-icons/fi';
-import { operationsType } from '../helpers/interfaces';
+import { historyLogRecord, operationsType } from '../helpers/interfaces';
 import { ReactElement } from 'react';
+import { Button, Window, History } from './';
 
 export default function Calculator() {
     const defaultCalcInput = '0';
     const defaultPrintOut = '';
+    const defaultHistoryLog: historyLogRecord[] = [
+        { stringOperation: '12-1=', result: '11', nodeRef: createRef() },
+    ];
     const [calcInput, updateCalcInput] = useState(defaultCalcInput);
     const [printOut, updatePrintout] = useState(defaultPrintOut);
+    const [historyLog, updateHistoryLog] = useState(defaultHistoryLog);
 
     const numbers: string[][] = [
         ['7', '8', '9'],
@@ -116,12 +119,12 @@ export default function Calculator() {
 
     const handleSquare = () => {
         const squareOperation = `sqr(${calcInput})`;
-        const result = calculateOperation(squareOperation);
+        calculateOperation(squareOperation);
     };
 
     const handleSquareRoot = () => {
         const squareRootOperation = `sqrt(${calcInput})`;
-        const result = calculateOperation(squareRootOperation);
+        calculateOperation(squareRootOperation);
     };
 
     const handleKeyUp = (event: { keyCode: number }) => {
@@ -141,6 +144,12 @@ export default function Calculator() {
         const result = calculate(stringOperation);
         updatePrintout(stringOperation + '=');
         updateCalcInput(result);
+        const newHistoryLog: historyLogRecord = {
+            stringOperation: stringOperation + '=',
+            result,
+            nodeRef: createRef(),
+        };
+        updateHistoryLog([...historyLog, newHistoryLog]);
         return result;
     };
 
@@ -254,6 +263,7 @@ export default function Calculator() {
                         </div>
                     </div>
                 </div>
+                <History log={historyLog} />
             </div>
         </div>
     );
