@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { numbers } from '../data/calcData';
 import { calculate, deleteLastChar } from '../helpers/';
 import Button from './Button';
 import Window from './Window';
@@ -12,6 +11,13 @@ export default function Calculator() {
     const defaultPrintOut = '';
     const [calcInput, updateCalcInput] = useState(defaultCalcInput);
     const [printOut, updatePrintout] = useState(defaultPrintOut);
+
+    const numbers: string[][] = [
+        ['7', '8', '9'],
+        ['4', '5', '6'],
+        ['1', '2', '3'],
+        ['+/-', '0', '.'],
+    ];
 
     const primaryOperations: operationsType[] = [
         {
@@ -40,31 +46,35 @@ export default function Calculator() {
         },
     ];
 
-    const secondaryOperations: operationsType[] = [
-        {
-            value: '%',
-            label: 'percentage',
-        },
-        {
-            value: 'CE',
-            label: 'cancel entry',
-        },
-        {
-            value: 'C',
-            label: 'clear',
-        },
-        {
-            value: '1/x',
-            label: 'inverse',
-        },
-        {
-            value: 'x^2',
-            label: 'square',
-        },
-        {
-            value: 'sqrt(x)',
-            label: 'squareroot',
-        },
+    const secondaryOperations: operationsType[][] = [
+        [
+            {
+                value: '%',
+                label: 'percentage',
+            },
+            {
+                value: 'PI',
+                label: 'pi',
+            },
+            {
+                value: 'C',
+                label: 'clear',
+            },
+        ],
+        [
+            {
+                value: '1/x',
+                label: 'inverse',
+            },
+            {
+                value: 'x^2',
+                label: 'square',
+            },
+            {
+                value: 'sqrt(x)',
+                label: 'squareroot',
+            },
+        ],
     ];
 
     // HANDLERS
@@ -155,19 +165,25 @@ export default function Calculator() {
 
     // RENDERERS
 
-    const numberRender = (data: string[]) => {
-        return data.map((singleData) => {
+    const numberRender = (data: string[][]) => {
+        return data.map((singleRow, index) => {
             return (
-                <Button
-                    key={`key-${singleData}`}
-                    onClick={() => handleBtnClick(singleData)}
-                    source={singleData}
-                />
+                <div className="singleRow" key={`key-singleRow-${index}`}>
+                    {singleRow.map((singleNumber) => {
+                        return (
+                            <Button
+                                key={`key-${singleNumber}`}
+                                onClick={() => handleBtnClick(singleNumber)}
+                                source={singleNumber}
+                            />
+                        );
+                    })}
+                </div>
             );
         });
     };
 
-    const operationRender = (data: operationsType[]) => {
+    const primaryOperationsRender = (data: operationsType[]) => {
         return data.map(({ value, label }) => {
             const onClickFunction = chooseBtnFunction(value, label);
             return (
@@ -180,32 +196,63 @@ export default function Calculator() {
         });
     };
 
+    const secondaryOperationsRender = (data: operationsType[][]) => {
+        return data.map((singleRow, index) => {
+            return (
+                <div
+                    className="singleRow"
+                    key={`key-singleRow-secondary-${index}`}
+                >
+                    {singleRow.map(({ value, label }) => {
+                        const onClickFunction = chooseBtnFunction(value, label);
+                        return (
+                            <Button
+                                key={`key-${label}`}
+                                source={value}
+                                onClick={onClickFunction}
+                            />
+                        );
+                    })}
+                </div>
+            );
+        });
+    };
+
     const numbersRendered = numberRender(numbers);
-    const primaryOperationsRendered = operationRender(primaryOperations);
-    const secondaryOperationsRendered = operationRender(secondaryOperations);
+    const primaryOperationsRendered =
+        primaryOperationsRender(primaryOperations);
+    const secondaryOperationsRendered =
+        secondaryOperationsRender(secondaryOperations);
 
     return (
         <div className="main-app">
             <div className="main-title">
                 <h1>React Calculator</h1>
+                <h2>by Sara De Clara</h2>
             </div>
             <div className="main-calculator">
-                <div className="printout">{printOut}</div>
-                <div className="main-window">
-                    <Window
-                        source={calcInput}
-                        onKeyUp={handleKeyUp}
-                        onChange={handleWindowChange}
-                    />
-                </div>
-                <div className="button-wrapper">
-                    <div className="secondary-and-numbers">
-                        <div className="secondary">
-                            {secondaryOperationsRendered}
+                <div className="window-button-wrapper">
+                    <div className="window-printout">
+                        <div className="printout">{printOut}</div>
+                        <div className="main-window">
+                            <Window
+                                source={calcInput}
+                                onKeyUp={handleKeyUp}
+                                onChange={handleWindowChange}
+                            />
                         </div>
-                        <div className="numbers">{numbersRendered}</div>
                     </div>
-                    <div className="primary">{primaryOperationsRendered}</div>
+                    <div className="button-wrapper">
+                        <div className="secondary-and-numbers">
+                            <div className="secondary">
+                                {secondaryOperationsRendered}
+                            </div>
+                            <div className="numbers">{numbersRendered}</div>
+                        </div>
+                        <div className="primary">
+                            {primaryOperationsRendered}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
