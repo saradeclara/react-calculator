@@ -8,9 +8,7 @@ import { Button, Window, History } from './';
 export default function Calculator() {
     const defaultCalcInput = '0';
     const defaultPrintOut = '';
-    const defaultHistoryLog: historyLogRecord[] = [
-        { stringOperation: '12-1=', result: '11', nodeRef: createRef() },
-    ];
+    const defaultHistoryLog: historyLogRecord[] = [];
     const [calcInput, updateCalcInput] = useState(defaultCalcInput);
     const [printOut, updatePrintout] = useState(defaultPrintOut);
     const [historyLog, updateHistoryLog] = useState(defaultHistoryLog);
