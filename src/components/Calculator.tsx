@@ -136,6 +136,11 @@ export default function Calculator() {
         }
     };
 
+    const handleClear = () => {
+        updateCalcInput(defaultCalcInput);
+        updatePrintout(defaultPrintOut);
+    };
+
     // HELPERS
 
     const calculateOperation = (stringOperation: string) => {
@@ -163,6 +168,8 @@ export default function Calculator() {
                 return handleSquare;
             case 'squareroot':
                 return handleSquareRoot;
+            case 'clear':
+                return handleClear;
             default:
                 return typeof value === 'string'
                     ? () => handleBtnClick(value)
