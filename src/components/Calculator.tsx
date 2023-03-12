@@ -1,9 +1,10 @@
-import { createRef, useState } from 'react';
+import { createRef, useState, useRef } from 'react';
 import { calculate, deleteLastChar } from '../helpers/';
 import { FiDelete } from 'react-icons/fi';
 import { historyLogRecord, operationsType } from '../helpers/interfaces';
 import { ReactElement } from 'react';
 import { Button, Window, History } from './';
+import { decimalLimit } from '../helpers/calculate';
 
 export default function Calculator() {
     const defaultCalcInput = '0';
@@ -12,6 +13,8 @@ export default function Calculator() {
     const [calcInput, updateCalcInput] = useState(defaultCalcInput);
     const [printOut, updatePrintout] = useState(defaultPrintOut);
     const [historyLog, updateHistoryLog] = useState(defaultHistoryLog);
+
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const numbers: string[][] = [
         ['7', '8', '9'],
@@ -104,6 +107,7 @@ export default function Calculator() {
                 ? char
                 : prevCalcInput + char
         );
+        inputRef?.current?.focus();
     };
 
     const handleDeleteBtn = () => {
@@ -172,7 +176,9 @@ export default function Calculator() {
                 return handleClear;
             default:
                 return typeof value === 'string'
-                    ? () => handleBtnClick(value)
+                    ? value === 'PI'
+                        ? () => handleBtnClick(Math.PI.toFixed(decimalLimit))
+                        : () => handleBtnClick(value)
                     : undefined;
         }
     };
@@ -253,6 +259,7 @@ export default function Calculator() {
                                 source={calcInput}
                                 onKeyUp={handleKeyUp}
                                 onChange={handleWindowChange}
+                                inputRef={inputRef}
                             />
                         </div>
                     </div>

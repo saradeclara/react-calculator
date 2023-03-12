@@ -3,14 +3,14 @@ import { countDecimals } from './index';
 import { firstOpType, mainSequenceSingleType } from './interfaces';
 
 const errorMessage = 'ERROR';
-const decimalLimit = 10;
+export const decimalLimit = 10;
 
 function calculate(string: string): string {
     let tempNumber: string[] = [];
     let mainSequence: mainSequenceSingleType[] = [];
     for (let index = 0; index < string.split('').length; index++) {
         const char = string.split('')[index];
-        if (Number(char) || char === '0') {
+        if (Number(char) || char === '0' || char === '.') {
             // number
             tempNumber.push(char);
         } else {
