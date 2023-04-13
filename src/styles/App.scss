@@ -1,0 +1,36 @@
+#app-wrapper {
+  display: inline-flex;
+}
+
+.key-row {
+  display: flex;
+}
+
+.single-key {
+  width: 100px;
+  height: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 10px;
+
+  cursor: pointer;
+}
+
+.function-keys,
+.basic-operation-keys {
+  display: flex;
+}
+
+.basic-operation-keys {
+  display: flex;
+  flex-direction: column;
+}
+
+#number-operation-wrapper {
+  display: inline-flex;
+}

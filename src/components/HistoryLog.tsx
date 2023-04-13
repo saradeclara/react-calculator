@@ -1,5 +1,9 @@
-import React from "react";
+import { HistoryLogProps } from "../types";
 
-export default function HistoryLog() {
-  return <div>HistoryLog</div>;
+export default function HistoryLog({ log }: HistoryLogProps) {
+  return (
+    <div>
+      <h2>history log</h2>
+    </div>
+  );
 }

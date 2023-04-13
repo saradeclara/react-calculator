@@ -1,3 +1,4 @@
 import { numberKeysData } from "./numberKeysData";
+import { functionKeysData } from "./functionKeysData";
 
-export { numberKeysData };
+export { functionKeysData, numberKeysData };

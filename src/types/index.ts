@@ -1,4 +1,17 @@
 import { keyType } from "./numberKeysData";
-import { NumberKeysProps, DisplayProps } from "./compProps";
+import {
+  BasicOperationKeysProps,
+  NumberKeysProps,
+  DisplayProps,
+  FunctionKeysProps,
+  HistoryLogProps,
+} from "./compProps";
 
-export type { keyType, NumberKeysProps, DisplayProps };
+export type {
+  BasicOperationKeysProps,
+  keyType,
+  NumberKeysProps,
+  DisplayProps,
+  FunctionKeysProps,
+  HistoryLogProps,
+};

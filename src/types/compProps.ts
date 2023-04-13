@@ -4,6 +4,10 @@ type NumberKeysProps = {
   keys: keyType[][];
 };
 
+type BasicOperationKeysProps = {
+  keys: keyType[];
+};
+
 type DisplayProps = {
   calcInput: string;
   handleChangeCalcInput: React.ChangeEventHandler<HTMLInputElement>;
@@ -11,4 +15,18 @@ type DisplayProps = {
   printOut: string;
 };
 
-export type { DisplayProps, NumberKeysProps };
+type FunctionKeysProps = {
+  keys: keyType[];
+};
+
+type HistoryLogProps = {
+  log: keyType[];
+};
+
+export type {
+  BasicOperationKeysProps,
+  DisplayProps,
+  FunctionKeysProps,
+  HistoryLogProps,
+  NumberKeysProps,
+};

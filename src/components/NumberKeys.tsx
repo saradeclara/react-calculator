@@ -1,11 +1,8 @@
-import React from "react";
 import { NumberKeysProps } from "../types";
-import "../styles/NumberKeys.scss";
 
 export default function NumberKeys({ keys }: NumberKeysProps) {
   return (
-    <>
-      <h2>NumberKeys</h2>
+    <div className="number-keys">
       {keys.map((keyRow, index) => {
         return (
           <div key={index} className="key-row">
@@ -19,6 +16,6 @@ export default function NumberKeys({ keys }: NumberKeysProps) {
           </div>
         );
       })}
-    </>
+    </div>
   );
 }

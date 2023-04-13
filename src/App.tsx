@@ -6,22 +6,25 @@ import {
   HistoryLog,
   NumberKeys,
 } from "./components";
-import { numberKeysData } from "./data";
+import { functionKeysData, numberKeysData } from "./data";
 import { keyType } from "./types";
 import { calculate } from "./helpers";
+import { basicOperationKeysData } from "./data/basicOperationKeysData";
+import "./styles/App.scss";
 
 const defaultPrintOut: string = "";
 const defaultCalcInput: string = "";
 const defaultMainSequence: keyType[] = [];
+const defaultHistoryLog: keyType[] = [];
 
 function App() {
   const [printOut, updatePrintOut] = useState(defaultPrintOut);
   const [calcInput, updateCalcInput] = useState(defaultCalcInput);
   const [mainSequence, updateMainSequence] = useState(defaultMainSequence);
+  const [historyLog, updateHistoryLog] = useState(defaultHistoryLog);
 
   const operations = ["+", "-", "/", "*"];
   const lastElementInSequence = mainSequence[mainSequence.length - 1];
-  const lastCharPrintOut = printOut[printOut.length - 1];
   const operationsInSequence = [...mainSequence].filter(
     ({ type }) => type === "operation"
   );
@@ -93,17 +96,21 @@ function App() {
   return (
     <div>
       <h1>react calculator</h1>
-      <div id="calculator-wrapper">
-        <Display
-          calcInput={calcInput}
-          handleChangeCalcInput={handleChangeCalcInput}
-          printOut={printOut}
-          handleKeyDown={handleKeyDown}
-        />
-        <FunctionKeys />
-        <BasicOperationKeys />
-        <NumberKeys keys={numberKeysData} />
-        <HistoryLog />
+      <div id="app-wrapper">
+        <div id="calculator-wrapper">
+          <Display
+            calcInput={calcInput}
+            handleChangeCalcInput={handleChangeCalcInput}
+            printOut={printOut}
+            handleKeyDown={handleKeyDown}
+          />
+          <FunctionKeys keys={functionKeysData} />
+          <div id="number-operation-wrapper">
+            <NumberKeys keys={numberKeysData} />
+            <BasicOperationKeys keys={basicOperationKeysData} />
+          </div>
+        </div>
+        <HistoryLog log={historyLog} />
       </div>
     </div>
   );

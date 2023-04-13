@@ -9,7 +9,6 @@ function Display({
 }: DisplayProps) {
   return (
     <div>
-      <h2>Display</h2>
       <p>Print out: {printOut}</p>
       <input
         autoFocus
