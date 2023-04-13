@@ -6,11 +6,15 @@ export default function NumberKeys({ keys }: NumberKeysProps) {
   return (
     <>
       <h2>NumberKeys</h2>
-      {keys.map((keyRow) => {
+      {keys.map((keyRow, index) => {
         return (
-          <div className="key-row">
-            {keyRow.map(({ type, value }) => {
-              return <div className="single-key">{value}</div>;
+          <div key={index} className="key-row">
+            {keyRow.map(({ type, value }, index) => {
+              return (
+                <div key={index} className="single-key">
+                  {value}
+                </div>
+              );
             })}
           </div>
         );
