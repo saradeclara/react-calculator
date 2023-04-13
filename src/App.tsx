@@ -8,6 +8,7 @@ import {
 } from "./components";
 import { numberKeysData } from "./data";
 import { keyType } from "./types";
+import { calculate } from "./helpers";
 
 const defaultPrintOut: string = "";
 const defaultCalcInput: string = "";
@@ -17,13 +18,13 @@ function App() {
   const [printOut, updatePrintOut] = useState(defaultPrintOut);
   const [calcInput, updateCalcInput] = useState(defaultCalcInput);
   const [mainSequence, updateMainSequence] = useState(defaultMainSequence);
+
+  const operations = ["+", "-", "/", "*"];
   const lastElementInSequence = mainSequence[mainSequence.length - 1];
   const lastCharPrintOut = printOut[printOut.length - 1];
   const operationsInSequence = [...mainSequence].filter(
     ({ type }) => type === "operation"
   );
-  // const onlyNumbersRegex = /[0-9]/;
-  const operations = ["+", "-", "/", "*"];
 
   const handleChangeCalcInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -41,9 +42,9 @@ function App() {
       if (
         lastCharValue &&
         operations.includes(lastCharValue) &&
-        !operations.includes(lastCharPrintOut)
+        !operations.includes(lastElementInSequence?.value)
       ) {
-        updatePrintOut(calcInput + lastCharValue);
+        updatePrintOut(calcInput + " " + lastCharValue);
         if (operationsInSequence.length < 1) {
           const newOperationSequence = {
             type: "operation",
@@ -52,6 +53,22 @@ function App() {
           updateMainSequence([...mainSequence, newOperationSequence]);
         }
       }
+    }
+  };
+
+  // trigger 'calculate' function when pressing '=' button
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" || e.key === "=") {
+      const result = calculate(mainSequence);
+      const fullPrintOut = mainSequence.map(({ value }) => value).join(" ");
+      updatePrintOut(fullPrintOut + " =");
+      updateCalcInput(result);
+
+      const newNumberSequence: keyType = {
+        type: "number",
+        value: result,
+      };
+      updateMainSequence([newNumberSequence]);
     }
   };
 
@@ -81,6 +98,7 @@ function App() {
           calcInput={calcInput}
           handleChangeCalcInput={handleChangeCalcInput}
           printOut={printOut}
+          handleKeyDown={handleKeyDown}
         />
         <FunctionKeys />
         <BasicOperationKeys />

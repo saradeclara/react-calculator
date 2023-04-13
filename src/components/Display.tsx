@@ -1,12 +1,22 @@
 import React from "react";
 import { DisplayProps } from "../types";
 
-function Display({ calcInput, handleChangeCalcInput, printOut }: DisplayProps) {
+function Display({
+  calcInput,
+  handleChangeCalcInput,
+  handleKeyDown,
+  printOut,
+}: DisplayProps) {
   return (
     <div>
       <h2>Display</h2>
       <p>Print out: {printOut}</p>
-      <input value={calcInput} onChange={handleChangeCalcInput} />
+      <input
+        autoFocus
+        value={calcInput}
+        onKeyDown={handleKeyDown}
+        onChange={handleChangeCalcInput}
+      />
     </div>
   );
 }

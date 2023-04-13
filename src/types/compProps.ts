@@ -7,6 +7,7 @@ type NumberKeysProps = {
 type DisplayProps = {
   calcInput: string;
   handleChangeCalcInput: React.ChangeEventHandler<HTMLInputElement>;
+  handleKeyDown: React.KeyboardEventHandler<HTMLInputElement>;
   printOut: string;
 };
 
