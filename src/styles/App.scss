@@ -34,3 +34,77 @@
 #number-operation-wrapper {
   display: inline-flex;
 }
+
+#main-history-wrapper {
+  width: 500px;
+}
+
+#history-log-wrapper {
+  height: 600px;
+  overflow: auto;
+}
+
+.history-log-entry {
+  border: 1px solid black;
+  border-radius: 5px;
+
+  padding: 20px;
+  margin-bottom: 10px;
+
+  .operation,
+  .result {
+    text-align: right;
+  }
+}
+
+// HISTORY WINDOW
+
+.history-window {
+  width: 300px;
+  height: 100%;
+
+  overflow: scroll;
+}
+
+.history-log-single {
+  text-align: right;
+
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  background-color: rgb(238, 238, 238);
+
+  border-radius: 10px;
+
+  .result {
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+}
+
+.history-transition-group {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+// TRANSITION GROUP
+
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  -webkit-animation: slide-in-top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-in-top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}

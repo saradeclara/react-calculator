@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createRef } from "react";
 import {
   BasicOperationKeys,
   Display,
@@ -11,11 +11,12 @@ import { keyType } from "./types";
 import { calculate } from "./helpers";
 import { basicOperationKeysData } from "./data/basicOperationKeysData";
 import "./styles/App.scss";
+import { historyLogType } from "./types";
 
 const defaultPrintOut: string = "";
 const defaultCalcInput: string = "";
 const defaultMainSequence: keyType[] = [];
-const defaultHistoryLog: keyType[] = [];
+const defaultHistoryLog: historyLogType[] = [];
 
 function App() {
   const [printOut, updatePrintOut] = useState(defaultPrintOut);
@@ -62,16 +63,26 @@ function App() {
   // trigger 'calculate' function when pressing '=' button
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.key === "=") {
+      // calculate operation
       const result = calculate(mainSequence);
       const fullPrintOut = mainSequence.map(({ value }) => value).join(" ");
       updatePrintOut(fullPrintOut + " =");
       updateCalcInput(result);
 
+      // update main sequence
       const newNumberSequence: keyType = {
         type: "number",
         value: result,
       };
       updateMainSequence([newNumberSequence]);
+
+      // update history log
+      const newHistoryLogEntry: historyLogType = {
+        result,
+        operation: fullPrintOut + " =",
+        nodeRef: createRef(),
+      };
+      updateHistoryLog([...historyLog, newHistoryLogEntry]);
     }
   };
 

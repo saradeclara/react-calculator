@@ -6,6 +6,7 @@ import {
   FunctionKeysProps,
   HistoryLogProps,
 } from "./compProps";
+import { historyLogType } from "./historyLog";
 
 export type {
   BasicOperationKeysProps,
@@ -14,4 +15,5 @@ export type {
   DisplayProps,
   FunctionKeysProps,
   HistoryLogProps,
+  historyLogType,
 };

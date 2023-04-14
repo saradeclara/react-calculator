@@ -1,4 +1,5 @@
 import { keyType } from "../types";
+import { historyLogType } from "./historyLog";
 
 type NumberKeysProps = {
   keys: keyType[][];
@@ -20,7 +21,7 @@ type FunctionKeysProps = {
 };
 
 type HistoryLogProps = {
-  log: keyType[];
+  log: historyLogType[];
 };
 
 export type {
