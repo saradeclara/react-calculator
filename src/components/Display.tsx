@@ -12,6 +12,7 @@ function Display({
       <p>Print out: {printOut}</p>
       <input
         autoFocus
+        // type="number"
         value={calcInput}
         onKeyDown={handleKeyDown}
         onChange={handleChangeCalcInput}

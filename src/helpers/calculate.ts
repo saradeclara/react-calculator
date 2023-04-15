@@ -1,6 +1,6 @@
-import { keyType } from "../types";
+import { sequenceType } from "../types";
 
-const calculate = (sequence: keyType[]) => {
+const calculate = (sequence: sequenceType[]) => {
   const operation = sequence.find(({ type }) => type === "operation");
   const numbers = sequence.filter(({ type }) => type === "number");
   const errorMessage = "ERROR";

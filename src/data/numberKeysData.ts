@@ -1,6 +1,6 @@
-import { keyType } from "../types";
+import { sequenceType } from "../types";
 
-export const numberKeysData: keyType[][] = [
+export const numberKeysData: sequenceType[][] = [
   [
     { type: "number", value: "7" },
     { type: "number", value: "8" },

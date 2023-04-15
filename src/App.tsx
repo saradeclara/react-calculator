@@ -7,15 +7,15 @@ import {
   NumberKeys,
 } from "./components";
 import { functionKeysData, numberKeysData } from "./data";
-import { keyType } from "./types";
-import { calculate } from "./helpers";
+import { sequenceType } from "./types";
+import { calculate, onlyOneOperation } from "./helpers";
 import { basicOperationKeysData } from "./data/basicOperationKeysData";
 import "./styles/App.scss";
 import { historyLogType } from "./types";
 
 const defaultPrintOut: string = "";
 const defaultCalcInput: string = "";
-const defaultMainSequence: keyType[] = [];
+const defaultMainSequence: sequenceType[] = [];
 const defaultHistoryLog: historyLogType[] = [];
 
 function App() {
@@ -24,40 +24,45 @@ function App() {
   const [mainSequence, updateMainSequence] = useState(defaultMainSequence);
   const [historyLog, updateHistoryLog] = useState(defaultHistoryLog);
 
-  const operations = ["+", "-", "/", "*"];
-  const lastElementInSequence = mainSequence[mainSequence.length - 1];
-  const operationsInSequence = [...mainSequence].filter(
-    ({ type }) => type === "operation"
-  );
+  const operations: string[] = ["+", "-", "/", "*"];
+  const lastElementInSequence: sequenceType =
+    mainSequence[mainSequence.length - 1];
+  const isOperationinMainSequence: sequenceType | undefined = [
+    ...mainSequence,
+  ].find(({ type }) => type === "operation");
+  const onlyNumbersRegex = /^[0-9]*$/;
 
+  // update calcInput (keyboard input)
   const handleChangeCalcInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const lastCharValue = value.split("").pop();
+    const lastCharValue = value[value.length - 1];
 
-    if (Number(value)) {
-      // reset calcInput when inputting second number
+    if (onlyNumbersRegex.test(value)) {
       if (lastElementInSequence?.type === "operation" && lastCharValue) {
         updateCalcInput(lastCharValue);
       } else {
-        // inputting first number
         updateCalcInput(value);
       }
     } else {
-      if (
-        lastCharValue &&
-        operations.includes(lastCharValue) &&
-        !operations.includes(lastElementInSequence?.value)
-      ) {
-        updatePrintOut(calcInput + " " + lastCharValue);
-        if (operationsInSequence.length < 1) {
-          const newOperationSequence = {
-            type: "operation",
+      if (lastCharValue && operations.includes(lastCharValue)) {
+        // check if there is already an operation in main sequence
+        if (!isOperationinMainSequence) {
+          const newOperationSequence: sequenceType = {
             value: lastCharValue,
+            type: "operation",
           };
           updateMainSequence([...mainSequence, newOperationSequence]);
+
+          updatePrintOut(calcInput + " " + lastCharValue);
         }
       }
     }
+  };
+
+  // update calcInput (mouse input)
+  const handleBtnClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const newValue = e.currentTarget.innerText;
+    updateCalcInput((prevState) => prevState + newValue);
   };
 
   // trigger 'calculate' function when pressing '=' button
@@ -70,7 +75,7 @@ function App() {
       updateCalcInput(result);
 
       // update main sequence
-      const newNumberSequence: keyType = {
+      const newNumberSequence: sequenceType = {
         type: "number",
         value: result,
       };
@@ -117,8 +122,11 @@ function App() {
           />
           <FunctionKeys keys={functionKeysData} />
           <div id="number-operation-wrapper">
-            <NumberKeys keys={numberKeysData} />
-            <BasicOperationKeys keys={basicOperationKeysData} />
+            <NumberKeys handleBtnClick={handleBtnClick} keys={numberKeysData} />
+            <BasicOperationKeys
+              handleBtnClick={handleBtnClick}
+              keys={basicOperationKeysData}
+            />
           </div>
         </div>
         <HistoryLog log={historyLog} />

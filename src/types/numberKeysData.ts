@@ -1,6 +1,6 @@
-type keyType = {
+type sequenceType = {
   value: string;
   type: string;
 };
 
-export type { keyType };
+export type { sequenceType };

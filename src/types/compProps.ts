@@ -1,12 +1,14 @@
-import { keyType } from "../types";
+import { sequenceType } from "../types";
 import { historyLogType } from "./historyLog";
 
 type NumberKeysProps = {
-  keys: keyType[][];
+  keys: sequenceType[][];
+  handleBtnClick: React.MouseEventHandler<HTMLDivElement>;
 };
 
 type BasicOperationKeysProps = {
-  keys: keyType[];
+  keys: sequenceType[];
+  handleBtnClick: React.MouseEventHandler<HTMLDivElement>;
 };
 
 type DisplayProps = {
@@ -17,7 +19,7 @@ type DisplayProps = {
 };
 
 type FunctionKeysProps = {
-  keys: keyType[];
+  keys: sequenceType[];
 };
 
 type HistoryLogProps = {

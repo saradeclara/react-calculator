@@ -1,4 +1,4 @@
-import { keyType } from "./numberKeysData";
+import { sequenceType } from "./numberKeysData";
 import {
   BasicOperationKeysProps,
   NumberKeysProps,
@@ -10,7 +10,7 @@ import { historyLogType } from "./historyLog";
 
 export type {
   BasicOperationKeysProps,
-  keyType,
+  sequenceType,
   NumberKeysProps,
   DisplayProps,
   FunctionKeysProps,
