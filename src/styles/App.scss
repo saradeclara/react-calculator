@@ -1,11 +1,54 @@
-input {
-  text-align: right;
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&family=Roboto&display=swap");
+
+h1 {
+  padding-top: 50px;
+}
+
+h1,
+h4 {
+  text-align: center;
+}
+
+h1,
+h2,
+h4 {
+  font-family: "Comfortaa", cursive;
+  margin: 0;
+}
+
+#root {
+  font-family: "Roboto", sans-serif;
 }
 
 #app-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 50px;
+}
+
+#display-window {
+  width: 320px;
+  margin-bottom: 30px;
+  padding: 10px 0px;
+
+  input,
+  #printout-window {
+    text-align: right;
+    margin: 0;
+    padding: 5px 0px;
+    background-color: white;
+  }
+
+  input {
+    width: 320px;
+
+    border: 0px;
+    font-size: 30px;
+    &:focus-visible {
+      border: 0px;
+      outline: none;
+    }
+  }
 }
 
 #printout-window {
@@ -17,18 +60,34 @@ input {
 }
 
 .single-key {
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  border: 1px solid black;
+  border: 0px;
   border-radius: 10px;
-  margin: 10px;
+  margin: 5px;
+
+  font-size: 20px;
+
+  background-color: lightgray;
 
   cursor: pointer;
+
+  &:hover {
+    background-color: darkgray;
+  }
+}
+
+.function {
+  background-color: lightblue;
+}
+
+.operations {
+  background-color: lightcoral;
 }
 
 .function-keys,
@@ -47,6 +106,7 @@ input {
 
 #main-history-wrapper {
   width: 500px;
+  margin-left: 50px;
 }
 
 #history-log-wrapper {

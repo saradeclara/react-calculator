@@ -172,6 +172,7 @@ function App() {
   return (
     <div>
       <h1>react calculator</h1>
+      <h4>by Sara De Clara</h4>
       <div id="app-wrapper">
         <div id="calculator-wrapper">
           <Display

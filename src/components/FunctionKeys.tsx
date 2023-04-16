@@ -31,7 +31,7 @@ export default function FunctionKeys({
       {keys.map(({ type, value }, index) => {
         const handler = chooseHandlers(type);
         return (
-          <div key={index} onClick={handler} className="single-key">
+          <div key={index} onClick={handler} className="single-key function">
             {value}
           </div>
         );

@@ -11,7 +11,7 @@ export default function BasicOperationKeys({
           <div
             onClick={handleOperationClick}
             key={index}
-            className="single-key"
+            className="single-key operations"
           >
             {value}
           </div>

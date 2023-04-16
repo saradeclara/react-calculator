@@ -7,7 +7,7 @@ function Display({
   printOut,
 }: DisplayProps) {
   return (
-    <div>
+    <div id="display-window">
       <p id="printout-window">{printOut}</p>
       <input
         autoFocus
