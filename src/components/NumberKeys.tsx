@@ -2,6 +2,7 @@ import { NumberKeysProps } from "../types";
 
 export default function NumberKeys({
   handleNumberClick,
+  handleSignSwitch,
   keys,
 }: NumberKeysProps) {
   return (
@@ -12,7 +13,9 @@ export default function NumberKeys({
             {keyRow.map(({ type, value }, index) => {
               return (
                 <div
-                  onClick={handleNumberClick}
+                  onClick={
+                    type === "sign" ? handleSignSwitch : handleNumberClick
+                  }
                   key={index}
                   className="single-key"
                 >

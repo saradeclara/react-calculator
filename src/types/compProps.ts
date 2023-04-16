@@ -4,6 +4,7 @@ import { historyLogType } from "./historyLog";
 type NumberKeysProps = {
   keys: sequenceType[][];
   handleNumberClick: React.MouseEventHandler<HTMLDivElement>;
+  handleSignSwitch: React.MouseEventHandler<HTMLDivElement>;
 };
 
 type BasicOperationKeysProps = {

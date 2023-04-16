@@ -8,7 +8,7 @@ import {
 } from "./components";
 import { functionKeysData, numberKeysData } from "./data";
 import { sequenceType } from "./types";
-import { calculate, onlyOneOperation } from "./helpers";
+import { calculate } from "./helpers";
 import { basicOperationKeysData } from "./data/basicOperationKeysData";
 import "./styles/App.scss";
 import { historyLogType } from "./types";
@@ -121,14 +121,29 @@ function App() {
     }
   };
 
-  const handleClear = () => {};
+  const handleSignSwitch = () => {
+    const switchedSign = Number(calcInput) * -1;
+    updateCalcInput(switchedSign.toString());
+  };
+
+  const handleClear = () => {
+    updatePrintOut(defaultPrintOut);
+    updateCalcInput(defaultCalcInput);
+  };
 
   const handleEqual = () => {
     calculateOperation();
   };
 
-  const handleSquare = () => {};
-  const handleSquareRt = () => {};
+  const handleSquare = () => {
+    const square = Number(calcInput) * Number(calcInput);
+    updateCalcInput(square.toString());
+  };
+
+  const handleSquareRt = () => {
+    const squareroot = Math.sqrt(Number(calcInput));
+    updateCalcInput(squareroot.toString());
+  };
 
   useEffect(() => {
     const newNumberSequence = {
@@ -169,6 +184,7 @@ function App() {
           <div id="number-operation-wrapper">
             <NumberKeys
               handleNumberClick={handleNumberClick}
+              handleSignSwitch={handleSignSwitch}
               keys={numberKeysData}
             />
             <BasicOperationKeys
