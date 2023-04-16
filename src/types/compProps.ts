@@ -3,12 +3,12 @@ import { historyLogType } from "./historyLog";
 
 type NumberKeysProps = {
   keys: sequenceType[][];
-  handleBtnClick: React.MouseEventHandler<HTMLDivElement>;
+  handleNumberClick: React.MouseEventHandler<HTMLDivElement>;
 };
 
 type BasicOperationKeysProps = {
   keys: sequenceType[];
-  handleBtnClick: React.MouseEventHandler<HTMLDivElement>;
+  handleOperationClick: React.MouseEventHandler<HTMLDivElement>;
 };
 
 type DisplayProps = {
@@ -20,6 +20,10 @@ type DisplayProps = {
 
 type FunctionKeysProps = {
   keys: sequenceType[];
+  handleSquare: React.MouseEventHandler;
+  handleSquareRt: React.MouseEventHandler;
+  handleClear: React.MouseEventHandler;
+  handleEqual: React.MouseEventHandler;
 };
 
 type HistoryLogProps = {

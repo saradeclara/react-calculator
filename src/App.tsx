@@ -27,9 +27,12 @@ function App() {
   const operations: string[] = ["+", "-", "/", "*"];
   const lastElementInSequence: sequenceType =
     mainSequence[mainSequence.length - 1];
-  const isOperationinMainSequence: sequenceType | undefined = [
+  const operationsInSequence: sequenceType | undefined = [...mainSequence].find(
+    ({ type }) => type === "operation"
+  );
+  const numbersInSequence: sequenceType[] | undefined = [
     ...mainSequence,
-  ].find(({ type }) => type === "operation");
+  ].filter(({ type }) => type === "number");
   const onlyNumbersRegex = /^[0-9]*$/;
 
   // update calcInput (keyboard input)
@@ -46,7 +49,7 @@ function App() {
     } else {
       if (lastCharValue && operations.includes(lastCharValue)) {
         // check if there is already an operation in main sequence
-        if (!isOperationinMainSequence) {
+        if (!operationsInSequence) {
           const newOperationSequence: sequenceType = {
             value: lastCharValue,
             type: "operation",
@@ -59,37 +62,73 @@ function App() {
     }
   };
 
+  // calculate operation, reset all inputs and add entry to history log
+  const calculateOperation = () => {
+    // calculate operation
+    const result = calculate(mainSequence);
+    const fullPrintOut = mainSequence.map(({ value }) => value).join(" ");
+    updatePrintOut(fullPrintOut + " =");
+    updateCalcInput(result);
+
+    // update main sequence
+    const newNumberSequence: sequenceType = {
+      type: "number",
+      value: result,
+    };
+    updateMainSequence([newNumberSequence]);
+
+    // update history log
+    const newHistoryLogEntry: historyLogType = {
+      result,
+      operation: fullPrintOut + " =",
+      nodeRef: createRef(),
+    };
+    updateHistoryLog([...historyLog, newHistoryLogEntry]);
+  };
+
   // update calcInput (mouse input)
-  const handleBtnClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const newValue = e.currentTarget.innerText;
-    updateCalcInput((prevState) => prevState + newValue);
+  const handleNumberClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const newValue: string = e.currentTarget.innerText;
+
+    if (numbersInSequence.length === 1 && operationsInSequence) {
+      updateCalcInput(newValue);
+    } else {
+      updateCalcInput((prevState) => prevState + newValue);
+    }
+  };
+
+  // handle operation btn functionality (mouse input)
+  const handleOperationClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const newOperation: string = e.currentTarget.innerText;
+
+    // check that the first number has been added to main sequence
+    if (numbersInSequence.length === 1 && mainSequence.length === 1) {
+      const firstNumber = numbersInSequence[0].value;
+      const newOperationSequence: sequenceType = {
+        type: "operation",
+        value: newOperation,
+      };
+      updateMainSequence([...mainSequence, newOperationSequence]);
+
+      updatePrintOut(firstNumber + " " + newOperation);
+    }
   };
 
   // trigger 'calculate' function when pressing '=' button
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" || e.key === "=") {
-      // calculate operation
-      const result = calculate(mainSequence);
-      const fullPrintOut = mainSequence.map(({ value }) => value).join(" ");
-      updatePrintOut(fullPrintOut + " =");
-      updateCalcInput(result);
-
-      // update main sequence
-      const newNumberSequence: sequenceType = {
-        type: "number",
-        value: result,
-      };
-      updateMainSequence([newNumberSequence]);
-
-      // update history log
-      const newHistoryLogEntry: historyLogType = {
-        result,
-        operation: fullPrintOut + " =",
-        nodeRef: createRef(),
-      };
-      updateHistoryLog([...historyLog, newHistoryLogEntry]);
+      calculateOperation();
     }
   };
+
+  const handleClear = () => {};
+
+  const handleEqual = () => {
+    calculateOperation();
+  };
+
+  const handleSquare = () => {};
+  const handleSquareRt = () => {};
 
   useEffect(() => {
     const newNumberSequence = {
@@ -120,11 +159,20 @@ function App() {
             printOut={printOut}
             handleKeyDown={handleKeyDown}
           />
-          <FunctionKeys keys={functionKeysData} />
+          <FunctionKeys
+            keys={functionKeysData}
+            handleClear={handleClear}
+            handleEqual={handleEqual}
+            handleSquare={handleSquare}
+            handleSquareRt={handleSquareRt}
+          />
           <div id="number-operation-wrapper">
-            <NumberKeys handleBtnClick={handleBtnClick} keys={numberKeysData} />
+            <NumberKeys
+              handleNumberClick={handleNumberClick}
+              keys={numberKeysData}
+            />
             <BasicOperationKeys
-              handleBtnClick={handleBtnClick}
+              handleOperationClick={handleOperationClick}
               keys={basicOperationKeysData}
             />
           </div>

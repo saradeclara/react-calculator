@@ -1,14 +1,18 @@
 import { BasicOperationKeysProps } from "../types";
 
 export default function BasicOperationKeys({
-  handleBtnClick,
+  handleOperationClick,
   keys,
 }: BasicOperationKeysProps) {
   return (
     <div className="basic-operation-keys">
       {keys.map(({ type, value }, index) => {
         return (
-          <div onClick={handleBtnClick} key={index} className="single-key">
+          <div
+            onClick={handleOperationClick}
+            key={index}
+            className="single-key"
+          >
             {value}
           </div>
         );
