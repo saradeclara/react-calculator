@@ -1,4 +1,3 @@
-import React from "react";
 import { DisplayProps } from "../types";
 
 function Display({
@@ -9,10 +8,9 @@ function Display({
 }: DisplayProps) {
   return (
     <div>
-      <p>Print out: {printOut}</p>
+      <p id="printout-window">{printOut}</p>
       <input
         autoFocus
-        // type="number"
         value={calcInput}
         onKeyDown={handleKeyDown}
         onChange={handleChangeCalcInput}

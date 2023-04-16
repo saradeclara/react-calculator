@@ -14,7 +14,7 @@ import "./styles/App.scss";
 import { historyLogType } from "./types";
 
 const defaultPrintOut: string = "";
-const defaultCalcInput: string = "";
+const defaultCalcInput: string = "0";
 const defaultMainSequence: sequenceType[] = [];
 const defaultHistoryLog: historyLogType[] = [];
 
@@ -55,10 +55,14 @@ function App() {
             type: "operation",
           };
           updateMainSequence([...mainSequence, newOperationSequence]);
-
+          updateCalcInput(defaultCalcInput);
           updatePrintOut(calcInput + " " + lastCharValue);
         }
       }
+    }
+
+    if (calcInput === "0") {
+      updateCalcInput(lastCharValue);
     }
   };
 
@@ -93,7 +97,9 @@ function App() {
     if (numbersInSequence.length === 1 && operationsInSequence) {
       updateCalcInput(newValue);
     } else {
-      updateCalcInput((prevState) => prevState + newValue);
+      updateCalcInput((prevState) =>
+        prevState === "0" ? newValue : prevState + newValue
+      );
     }
   };
 
@@ -109,7 +115,7 @@ function App() {
         value: newOperation,
       };
       updateMainSequence([...mainSequence, newOperationSequence]);
-
+      updateCalcInput(defaultCalcInput);
       updatePrintOut(firstNumber + " " + newOperation);
     }
   };
