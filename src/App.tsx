@@ -167,6 +167,7 @@ function App() {
         updateMainSequence([...mainSequence, newNumberSequence]);
       }
     }
+    // eslint-disable-next-line
   }, [calcInput]);
 
   return (
