@@ -1,6 +1,9 @@
+import { ReactElement } from "react";
+
 type sequenceType = {
-  value: string;
-  type: string;
+	value: ReactElement | string;
+	type: string;
+	label?: string;
 };
 
 export type { sequenceType };
