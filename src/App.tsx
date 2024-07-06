@@ -181,7 +181,9 @@ function App() {
 		<div id="main-wrapper">
 			<div id="main-bg"></div>
 			<div id="overlay"></div>
-			<h1>react calculator</h1>
+			<h1 id="main-heading" data-fill-text="reactulator">
+				reactulator
+			</h1>
 			<div id="app-wrapper">
 				<div id="calculator-wrapper">
 					<Display

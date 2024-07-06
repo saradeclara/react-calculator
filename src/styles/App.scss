@@ -27,12 +27,18 @@ html {
 	z-index: -2;
 }
 
-h1 {
+#main-heading {
 	padding-top: 50px;
 	font-family: "Alfa Slab One", serif;
 	font-weight: 400;
 	font-style: normal;
-	font-size: 50px;
+	font-size: 80px;
+	background: linear-gradient(90deg, rgb(0, 42, 65), #00ffff);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+	margin: 0 auto;
+	letter-spacing: 5px;
 }
 
 #calculator-wrapper {
