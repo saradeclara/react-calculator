@@ -1,4 +1,4 @@
-import { useState, useEffect, createRef } from "react";
+import { useState, useEffect } from "react";
 import {
 	BasicOperationKeys,
 	Display,
@@ -8,10 +8,17 @@ import {
 } from "./components";
 import { numberKeysData } from "./data";
 import { sequenceType } from "./types";
-import { calculate } from "./helpers";
 import "./styles/App.scss";
 import { historyLogType } from "./types";
 import { functionKeysData } from "./components/FunctionKeys";
+import {
+	calculateOperation,
+	handleClear,
+	handleEqual,
+	handleSignSwitch,
+	handleSquare,
+	handleSquareRt,
+} from "./helpers/handlers";
 
 const defaultPrintOut: string = "";
 const defaultCalcInput: string = "0";
@@ -66,30 +73,6 @@ function App() {
 		}
 	};
 
-	// calculate operation, reset all inputs and add entry to history log
-	const calculateOperation = () => {
-		// calculate operation
-		const result = calculate(mainSequence);
-		const fullPrintOut = mainSequence.map(({ value }) => value).join(" ");
-		updatePrintOut(fullPrintOut + " =");
-		updateCalcInput(result);
-
-		// update main sequence
-		const newNumberSequence: sequenceType = {
-			type: "number",
-			value: result,
-		};
-		updateMainSequence([newNumberSequence]);
-
-		// update history log
-		const newHistoryLogEntry: historyLogType = {
-			result,
-			operation: fullPrintOut + " =",
-			nodeRef: createRef(),
-		};
-		updateHistoryLog([...historyLog, newHistoryLogEntry]);
-	};
-
 	// update calcInput (mouse input)
 	const handleNumberClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		const newValue: string = e.currentTarget.innerText;
@@ -110,50 +93,15 @@ function App() {
 	// trigger 'calculate' function when pressing '=' button
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter" || e.key === "=") {
-			calculateOperation();
+			calculateOperation(
+				mainSequence,
+				updateMainSequence,
+				updateCalcInput,
+				updateCalcInput,
+				historyLog,
+				updateHistoryLog
+			);
 		}
-	};
-
-	/**
-	 * The handleSignSwitch function toggles the sign of the current input value in a TypeScript React
-	 * application.
-	 */
-	const handleSignSwitch = () => {
-		const switchedSign = Number(calcInput) * -1;
-		updateCalcInput(switchedSign.toString());
-	};
-
-	/**
-	 * The `handleClear` function resets the print out and calculation input to their default values.
-	 */
-	const handleClear = () => {
-		updatePrintOut(defaultPrintOut);
-		updateCalcInput(defaultCalcInput);
-	};
-
-	/**
-	 * The handleEqual function in TypeScript React calls the calculateOperation function.
-	 */
-	const handleEqual = () => {
-		calculateOperation();
-	};
-
-	/**
-	 * The `handleSquare` function calculates the square of a number input and updates the input with the
-	 * result.
-	 */
-	const handleSquare = () => {
-		const square = Number(calcInput) * Number(calcInput);
-		updateCalcInput(square.toString());
-	};
-
-	/**
-	 * The function calculates the square root of the input number and updates the calculation input with
-	 * the result.
-	 */
-	const handleSquareRt = () => {
-		const squareroot = Math.sqrt(Number(calcInput));
-		updateCalcInput(squareroot.toString());
 	};
 
 	/* This `useEffect` hook is responsible for updating the `mainSequence` state based on changes in the
@@ -194,15 +142,33 @@ function App() {
 					/>
 					<FunctionKeys
 						keys={functionKeysData}
-						handleClear={handleClear}
-						handleEqual={handleEqual}
-						handleSquare={handleSquare}
-						handleSquareRt={handleSquareRt}
+						handleClear={() =>
+							handleClear(
+								defaultPrintOut,
+								defaultCalcInput,
+								updatePrintOut,
+								updateCalcInput
+							)
+						}
+						handleEqual={() =>
+							handleEqual(
+								mainSequence,
+								updateMainSequence,
+								updateCalcInput,
+								updateCalcInput,
+								historyLog,
+								updateHistoryLog
+							)
+						}
+						handleSquare={() => handleSquare(calcInput, updateCalcInput)}
+						handleSquareRt={() => handleSquareRt(calcInput, updateCalcInput)}
 					/>
 					<div id="number-operation-wrapper">
 						<NumberKeys
 							handleNumberClick={handleNumberClick}
-							handleSignSwitch={handleSignSwitch}
+							handleSignSwitch={() =>
+								handleSignSwitch(calcInput, updateCalcInput)
+							}
 							keys={numberKeysData}
 						/>
 						<BasicOperationKeys
